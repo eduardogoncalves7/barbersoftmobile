@@ -32,8 +32,11 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 import { UsuarioApi, ServicoApi, AgendamentoApi } from "../services/api";
 
-const toUsuario  = (u: UsuarioApi): Usuario => ({
-  id: u.id, nome: u.nome, email: u.email, role: u.role,
+const toUsuario = (u: UsuarioApi, roleDefault?: "admin" | "barbeiro" | "cliente"): Usuario => ({
+  id:    u.id,
+  nome:  u.nome,
+  email: u.email,
+  role:  u.role ?? roleDefault ?? "cliente",
 });
 
 const toServico  = (s: ServicoApi): Servico => ({
@@ -152,17 +155,16 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const carregarBarbeiros = useCallback(async () => {
-    try {
-      const lista = await usuarioService.listarBarbeiros();
-      // Mescla barbeiros com usuarios existentes
-      setUsuarios((prev) => {
-        const semBarbeiros = prev.filter((u) => u.role !== "barbeiro");
-        return [...semBarbeiros, ...lista.map(toUsuario)];
-      });
-    } catch (e) {
-      console.warn("Falha ao carregar barbeiros:", e);
-    }
-  }, []);
+  try {
+    const lista = await usuarioService.listarBarbeiros();
+    setUsuarios((prev) => {
+      const semBarbeiros = prev.filter((u) => u.role !== "barbeiro");
+      return [...semBarbeiros, ...lista.map((u) => toUsuario(u, "barbeiro"))];
+    });
+  } catch (e) {
+    console.warn("Falha ao carregar barbeiros:", e);
+  }
+}, []);
 
   const carregarAgendamentos = useCallback(async () => {
     if (!usuarioLogado) return;

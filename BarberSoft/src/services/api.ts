@@ -6,7 +6,7 @@
 // Dispositivo físico / Expo Go → troque pelo IP da sua máquina
 //   ex: http://192.168.1.100:3333
 
-export const BASE_URL = "http://192.168.1.5:3333";
+export const BASE_URL = "http://10.0.2.2:3333";
 // Para dispositivo físico na mesma rede, descomente e ajuste:
 // export const BASE_URL = "http://192.168.1.100:3333";
 

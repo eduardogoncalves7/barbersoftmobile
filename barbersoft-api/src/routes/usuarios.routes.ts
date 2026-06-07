@@ -55,6 +55,7 @@ router.get("/barbeiros", exigirRole("admin", "barbeiro", "cliente"), async (_req
       id:    b.id,
       nome:  b.nome,
       email: b.email,
+      role:  b.role,
     }))
   );
 });

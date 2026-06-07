@@ -15,11 +15,7 @@ type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Login">;
 };
 
-const QUICK_LOGINS = [
-  { label: "Admin",    email: "admin@barber.com",  senha: "admin123" },
-  { label: "Barbeiro", email: "carlos@email.com",  senha: "admin123" },
-  { label: "Cliente",  email: "ana@email.com",     senha: "admin123" },
-];
+
 
 export const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { login } = useApp();
@@ -43,11 +39,7 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
     ]).start();
   };
 
-  const preencherRapido = (q: typeof QUICK_LOGINS[number]) => {
-    setEmail(q.email);
-    setSenha(q.senha);
-    setError("");
-  };
+
 
   const handleLogin = async () => {
     const emailFmt = email.trim();
@@ -128,25 +120,7 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 <Text style={styles.olhoIcon}>{mostrarSenha ? "🙈" : "👁"}</Text>
               </TouchableOpacity>
             </View>
-
-            {/* Acesso rápido */}
-            <Text style={styles.hintLabel}>Acesso rápido:</Text>
-            <View style={styles.chipsRow}>
-              {QUICK_LOGINS.map((q) => (
-                <TouchableOpacity key={q.email} style={styles.chip} onPress={() => preencherRapido(q)} activeOpacity={0.7}>
-                  <Text style={styles.chipText}>{q.label}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            {/* Dica */}
-            <View style={styles.dicaBox}>
-              <Text style={styles.dicaText}>
-                💡 Senha padrão para todos os perfis:{" "}
-                <Text style={styles.dicaSenha}>admin123</Text>
-              </Text>
-            </View>
-
+            
             {/* Erro */}
             {!!error && (
               <View style={styles.errorBox}>
@@ -181,7 +155,7 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
             </TouchableOpacity>
           </Animated.View>
 
-          <Text style={styles.footer}>BarberSoft v1.0 · Projeto Acadêmico ESW</Text>
+          <Text style={styles.footer}>BarberSoft v1.0</Text>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -222,15 +196,6 @@ const styles = StyleSheet.create({
   inputSenha: { flex: 1, color: theme.colors.text, fontSize: 14, paddingHorizontal: 14, paddingVertical: 12 },
   olhoBtn:    { paddingHorizontal: 14, paddingVertical: 12 },
   olhoIcon:   { fontSize: 16 },
-
-  hintLabel: { fontSize: 11, color: theme.colors.textMuted, marginBottom: 8 },
-  chipsRow:  { flexDirection: "row", gap: 8, marginBottom: 12, flexWrap: "wrap" },
-  chip:      { paddingHorizontal: 14, paddingVertical: 6, borderRadius: theme.radius.full, borderWidth: 1, borderColor: theme.colors.border, backgroundColor: "rgba(212,175,55,0.04)" },
-  chipText:  { fontSize: 12, color: theme.colors.textMuted },
-
-  dicaBox:  { backgroundColor: "rgba(212,175,55,0.06)", borderWidth: 1, borderColor: "rgba(212,175,55,0.18)", borderRadius: theme.radius.sm, padding: 10, marginBottom: 14 },
-  dicaText: { fontSize: 12, color: theme.colors.textMuted, lineHeight: 17 },
-  dicaSenha:{ color: theme.colors.gold, fontWeight: "500" },
 
   errorBox:  { backgroundColor: theme.colors.dangerBg, borderWidth: 1, borderColor: "rgba(239,83,80,0.25)", borderRadius: theme.radius.sm, padding: 10, marginBottom: 14 },
   errorText: { fontSize: 13, color: theme.colors.danger },
